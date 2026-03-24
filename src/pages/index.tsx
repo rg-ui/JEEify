@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -6,6 +6,69 @@ import { useAuth } from '@/hooks/useAuth';
 import Layout from '@/components/Layout';
 import { ChevronRight, Play, Star, BookOpen, Users } from 'lucide-react';
 import Logo from '@/components/Logo';
+
+const students = [
+  { name: 'Aryan Sharma', percentile: 99.94, m: 99.1, a: 99.8, b: 99.9, destination: 'IIT Bombay' },
+  { name: 'Isha Patra', percentile: 99.85, m: 99.4, a: 99.2, b: 99.7, destination: 'IIT Delhi' },
+  { name: 'Kabir Singh', percentile: 99.91, m: 99.7, a: 99.5, b: 99.8, destination: 'IIT Madras' }
+];
+
+const InteractiveSuccessCard = () => {
+  const [idx, setIdx] = useState(0);
+  const [count, setCount] = useState(90.00);
+  const student = students[idx];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIdx((prev) => (prev + 1) % students.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    setCount(90.00);
+    const target = student.percentile;
+    const duration = 1000;
+    const step = (target - 90.00) / (duration / 16);
+    
+    let current = 90.00;
+    const timer = setInterval(() => {
+      current += step;
+      if (current >= target) {
+        setCount(target);
+        clearInterval(timer);
+      } else {
+        setCount(current);
+      }
+    }, 16);
+    return () => clearInterval(timer);
+  }, [idx]);
+
+  return (
+    <div className="interactive-card">
+      <div className="card-glow"></div>
+      <div className="card-header">
+        <div className="header-meta">
+          <span>TOP PERFORMANCE</span>
+          <div className="live-pill"><span></span> LIVE</div>
+        </div>
+        <strong>{student.name}</strong>
+      </div>
+      <div className="card-body">
+        <div className="percent-wrap">
+          <span className="percentile">{count.toFixed(2)}</span>
+          <span className="label">PERCENTILE</span>
+        </div>
+        <div className="destination-badge">{student.destination}</div>
+      </div>
+      <div className="card-footer">
+        <div className="mini-stat"><span>JEE M</span><strong>{student.m}</strong></div>
+        <div className="mini-stat"><span>JEE A</span><strong>{student.a}</strong></div>
+        <div className="mini-stat"><span>BITSAT</span><strong>{student.b}</strong></div>
+      </div>
+    </div>
+  );
+};
 
 const LandingPage = () => {
   const { user } = useAuth();
@@ -46,21 +109,7 @@ const LandingPage = () => {
           </div>
         </div>
         <div className="hero-visual">
-          <div className="floating-card perf-card">
-            <div className="card-header">
-              <span>STUDENT PERFORMANCE</span>
-              <strong>Aryan Sharma</strong>
-            </div>
-            <div className="card-body">
-              <span className="percentile">99.94</span>
-              <span className="label">Percentile Score</span>
-            </div>
-            <div className="card-footer">
-              <div className="stat"><span>JEE M</span><strong>99.1</strong></div>
-              <div className="stat"><span>JEE A</span><strong>99.8</strong></div>
-              <div className="stat"><span>BITSAT</span><strong>99.9</strong></div>
-            </div>
-          </div>
+          <InteractiveSuccessCard />
         </div>
       </div>
 
@@ -192,43 +241,91 @@ const LandingPage = () => {
           color: var(--secondary);
           max-width: 500px;
         }
-        .hero-actions {
-          display: flex;
-          gap: 1rem;
-          margin-top: 1rem;
-        }
         .hero-visual {
           position: relative;
-          height: 400px;
+          height: 450px;
           display: flex;
           justify-content: center;
           align-items: center;
         }
-        .floating-card {
-           background: var(--surface);
-           padding: 2rem;
-           border-radius: var(--radius-xl);
-           box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-           width: 320px;
+        .interactive-card {
+           background: rgba(255, 255, 255, 0.7);
+           backdrop-filter: blur(20px);
+           -webkit-backdrop-filter: blur(20px);
+           padding: 2.5rem;
+           border-radius: 2.5rem;
+           box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+           width: 360px;
+           position: relative;
+           overflow: hidden;
+           border: 1px solid rgba(255, 255, 255, 0.4);
+           transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
            animation: float 6s ease-in-out infinite;
+        }
+        .interactive-card:hover {
+          transform: translateY(-10px) scale(1.02);
+          box-shadow: 0 40px 80px -15px rgba(251, 146, 60, 0.2);
+          border-color: rgba(251, 146, 60, 0.4);
+        }
+        .card-glow {
+          position: absolute;
+          top: -50%;
+          left: -50%;
+          width: 200%;
+          height: 200%;
+          background: radial-gradient(circle at center, rgba(251, 146, 60, 0.1) 0%, transparent 50%);
+          animation: rotateGlow 10s linear infinite;
+          pointer-events: none;
+        }
+        @keyframes rotateGlow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
         }
         @keyframes float {
           0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-20px); }
+          50% { transform: translateY(-15px); }
         }
-        .perf-card .card-header {
-          display: flex;
-          flex-direction: column;
-          margin-bottom: 2rem;
+        .card-header { position: relative; z-index: 1; margin-bottom: 2rem; }
+        .header-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+        .header-meta span { font-size: 0.7rem; font-weight: 800; color: var(--secondary); letter-spacing: 0.1em; }
+        .live-pill { 
+          display: flex; align-items: center; gap: 0.4rem; 
+          background: #FEF2F2; color: #DC2626; font-size: 0.6rem; font-weight: 900;
+          padding: 0.2rem 0.6rem; border-radius: 1rem; border: 1px solid #FEE2E2;
         }
-        .perf-card .card-header span { font-size: 0.7rem; color: var(--secondary); letter-spacing: 0.05em; }
-        .perf-card .card-header strong { font-size: 1.2rem; }
-        .perf-card .percentile { font-size: 4rem; font-weight: 800; color: var(--tertiary); line-height: 1; }
-        .perf-card .label { font-size: 0.8rem; color: var(--secondary); }
-        .perf-card .card-footer { display: flex; justify-content: space-between; margin-top: 2rem; border-top: 1px solid var(--surface-container-low); pt: 1rem; }
-        .stat { display: flex; flex-direction: column; }
-        .stat span { font-size: 0.6rem; color: var(--secondary); }
-        .stat strong { font-size: 0.9rem; }
+        .live-pill span { 
+          width: 6px; height: 6px; background: #DC2626; border-radius: 50%; 
+          animation: pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse {
+          0% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.5); opacity: 0.5; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+        .card-header strong { font-size: 1.5rem; font-weight: 800; color: var(--primary); display: block; }
+        
+        .card-body { position: relative; z-index: 1; margin-bottom: 2.5rem; text-align: center; }
+        .percent-wrap { display: flex; flex-direction: column; align-items: center; }
+        .percentile { 
+          font-size: 5rem; font-weight: 900; color: var(--tertiary); line-height: 1; 
+          background: linear-gradient(135deg, var(--tertiary) 0%, #F59E0B 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+        .label { font-size: 0.8rem; font-weight: 700; color: var(--secondary); letter-spacing: 0.2em; margin-top: 0.5rem; }
+        .destination-badge {
+          display: inline-block; margin-top: 1.5rem; background: #FFF7ED; color: #C2410C;
+          font-size: 0.75rem; font-weight: 700; padding: 0.4rem 1.2rem; border-radius: 2rem;
+          border: 1px solid #FFEDD5; box-shadow: 0 4px 12px rgba(251, 146, 60, 0.1);
+        }
+        
+        .card-footer { 
+          position: relative; z-index: 1; display: flex; justify-content: space-between; 
+          padding-top: 1.5rem; border-top: 2px dashed rgba(0,0,0,0.05);
+        }
+        .mini-stat { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; }
+        .mini-stat span { font-size: 0.6rem; font-weight: 800; color: var(--secondary); }
+        .mini-stat strong { font-size: 1rem; font-weight: 800; color: var(--primary); }
 
         .active-tests {
           max-width: 1280px;
