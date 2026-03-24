@@ -51,12 +51,12 @@ const Dashboard = () => {
   const latestSub = dbSubmissions[0];
   const allSubmissions = [...dbSubmissions].reverse(); // Oldest to newest
   
-  const avgAccuracy = dbSubmissions.length > 0 
-    ? Math.round(dbSubmissions.reduce((acc, s) => acc + (s.score / s.totalMarks) * 100, 0) / dbSubmissions.length)
-    : 0;
-
   const totalCorrect = dbSubmissions.reduce((acc, s) => acc + Math.max(0, Math.floor(s.score / 4)), 0);
   const totalIncorrect = dbSubmissions.reduce((acc, s) => acc + Math.max(0, Math.floor((s.totalMarks - Math.max(0, s.score)) / 4)), 0);
+
+  const avgAccuracy = (totalCorrect + totalIncorrect) > 0 
+    ? Math.round((totalCorrect / (totalCorrect + totalIncorrect)) * 100)
+    : 0;
 
   // Dynamic SVG Trend
   const generateTrendPath = () => {
