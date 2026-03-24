@@ -66,6 +66,96 @@ const InteractiveSuccessCard = () => {
         <div className="mini-stat"><span>JEE A</span><strong>{student.a}</strong></div>
         <div className="mini-stat"><span>BITSAT</span><strong>{student.b}</strong></div>
       </div>
+      <style jsx>{`
+        .interactive-card {
+           background: rgba(255, 255, 255, 0.75);
+           backdrop-filter: blur(25px) saturate(180%);
+           -webkit-backdrop-filter: blur(25px) saturate(180%);
+           padding: 2.5rem;
+           border-radius: 2.5rem;
+           box-shadow: 
+            0 10px 15px -3px rgba(0, 0, 0, 0.1),
+            0 4px 6px -2px rgba(0, 0, 0, 0.05),
+            inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+           width: 380px;
+           position: relative;
+           overflow: hidden;
+           transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+           animation: float 6s ease-in-out infinite;
+           transform-style: preserve-3d;
+           perspective: 1000px;
+        }
+        .interactive-card:hover {
+          transform: translateY(-15px) rotateX(4deg) rotateY(-4deg);
+          box-shadow: 
+            0 30px 60px -12px rgba(251, 146, 60, 0.25),
+            0 18px 36px -18px rgba(0, 0, 0, 0.3);
+          border-color: rgba(251, 146, 60, 0.5);
+        }
+        .card-glow {
+          position: absolute;
+          top: -50%;
+          left: -50%;
+          width: 200%;
+          height: 200%;
+          background: radial-gradient(circle at center, rgba(251, 146, 60, 0.15) 0%, transparent 60%);
+          animation: rotateGlow 12s linear infinite;
+          pointer-events: none;
+        }
+        @keyframes rotateGlow {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes float {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          50% { transform: translateY(-20px) rotate(1deg); }
+        }
+        .card-header { position: relative; z-index: 1; margin-bottom: 2rem; text-align: left; }
+        .header-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; }
+        .header-meta span { font-size: 0.75rem; font-weight: 800; color: #64748B; letter-spacing: 0.15em; }
+        .live-pill { 
+          display: flex; align-items: center; gap: 0.5rem; 
+          background: #FEF2F2; color: #EF4444; font-size: 0.65rem; font-weight: 900;
+          padding: 0.25rem 0.75rem; border-radius: 2rem; border: 1px solid #FEE2E2;
+          box-shadow: 0 2px 4px rgba(239, 68, 68, 0.1);
+        }
+        .live-pill span { 
+          width: 8px; height: 8px; background: #EF4444; border-radius: 50%; 
+          box-shadow: 0 0 8px #EF4444;
+          animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+          0% { transform: scale(1); opacity: 1; filter: blur(0px); }
+          50% { transform: scale(1.8); opacity: 0.4; filter: blur(2px); }
+          100% { transform: scale(1); opacity: 1; filter: blur(0px); }
+        }
+        .card-header strong { font-size: 1.75rem; font-weight: 900; color: #1E293B; display: block; letter-spacing: -0.02em; }
+        
+        .card-body { position: relative; z-index: 1; margin-bottom: 2.5rem; text-align: center; }
+        .percent-wrap { display: flex; flex-direction: column; align-items: center; }
+        .percentile { 
+          font-size: 5.5rem; font-weight: 900; color: #F59E0B; line-height: 1; 
+          background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          filter: drop-shadow(0 10px 10px rgba(245, 158, 11, 0.2));
+        }
+        .label { font-size: 0.85rem; font-weight: 800; color: #64748B; letter-spacing: 0.25em; margin-top: 0.5rem; }
+        .destination-badge {
+          display: inline-block; margin-top: 1.5rem; background: #FFF7ED; color: #C2410C;
+          font-size: 0.8rem; font-weight: 800; padding: 0.5rem 1.5rem; border-radius: 2rem;
+          border: 1px solid #FFEDD5; box-shadow: 0 4px 15px rgba(251, 146, 60, 0.15);
+          transform: translateZ(20px);
+        }
+        
+        .card-footer { 
+          position: relative; z-index: 1; display: flex; justify-content: space-between; 
+          padding-top: 1.5rem; border-top: 2px dashed rgba(226, 232, 240, 0.8);
+        }
+        .mini-stat { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; }
+        .mini-stat span { font-size: 0.65rem; font-weight: 800; color: #94A3B8; letter-spacing: 0.05em; }
+        .mini-stat strong { font-size: 1.1rem; font-weight: 900; color: #334155; }
+      `}</style>
     </div>
   );
 };
@@ -248,84 +338,11 @@ const LandingPage = () => {
           justify-content: center;
           align-items: center;
         }
-        .interactive-card {
-           background: rgba(255, 255, 255, 0.7);
-           backdrop-filter: blur(20px);
-           -webkit-backdrop-filter: blur(20px);
-           padding: 2.5rem;
-           border-radius: 2.5rem;
-           box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
-           width: 360px;
-           position: relative;
-           overflow: hidden;
-           border: 1px solid rgba(255, 255, 255, 0.4);
-           transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-           animation: float 6s ease-in-out infinite;
-        }
-        .interactive-card:hover {
-          transform: translateY(-10px) scale(1.02);
-          box-shadow: 0 40px 80px -15px rgba(251, 146, 60, 0.2);
-          border-color: rgba(251, 146, 60, 0.4);
-        }
-        .card-glow {
-          position: absolute;
-          top: -50%;
-          left: -50%;
-          width: 200%;
-          height: 200%;
-          background: radial-gradient(circle at center, rgba(251, 146, 60, 0.1) 0%, transparent 50%);
-          animation: rotateGlow 10s linear infinite;
-          pointer-events: none;
-        }
-        @keyframes rotateGlow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
+        
         @keyframes float {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-15px); }
         }
-        .card-header { position: relative; z-index: 1; margin-bottom: 2rem; }
-        .header-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
-        .header-meta span { font-size: 0.7rem; font-weight: 800; color: var(--secondary); letter-spacing: 0.1em; }
-        .live-pill { 
-          display: flex; align-items: center; gap: 0.4rem; 
-          background: #FEF2F2; color: #DC2626; font-size: 0.6rem; font-weight: 900;
-          padding: 0.2rem 0.6rem; border-radius: 1rem; border: 1px solid #FEE2E2;
-        }
-        .live-pill span { 
-          width: 6px; height: 6px; background: #DC2626; border-radius: 50%; 
-          animation: pulse 1.5s ease-in-out infinite;
-        }
-        @keyframes pulse {
-          0% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.5); opacity: 0.5; }
-          100% { transform: scale(1); opacity: 1; }
-        }
-        .card-header strong { font-size: 1.5rem; font-weight: 800; color: var(--primary); display: block; }
-        
-        .card-body { position: relative; z-index: 1; margin-bottom: 2.5rem; text-align: center; }
-        .percent-wrap { display: flex; flex-direction: column; align-items: center; }
-        .percentile { 
-          font-size: 5rem; font-weight: 900; color: var(--tertiary); line-height: 1; 
-          background: linear-gradient(135deg, var(--tertiary) 0%, #F59E0B 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-        .label { font-size: 0.8rem; font-weight: 700; color: var(--secondary); letter-spacing: 0.2em; margin-top: 0.5rem; }
-        .destination-badge {
-          display: inline-block; margin-top: 1.5rem; background: #FFF7ED; color: #C2410C;
-          font-size: 0.75rem; font-weight: 700; padding: 0.4rem 1.2rem; border-radius: 2rem;
-          border: 1px solid #FFEDD5; box-shadow: 0 4px 12px rgba(251, 146, 60, 0.1);
-        }
-        
-        .card-footer { 
-          position: relative; z-index: 1; display: flex; justify-content: space-between; 
-          padding-top: 1.5rem; border-top: 2px dashed rgba(0,0,0,0.05);
-        }
-        .mini-stat { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; }
-        .mini-stat span { font-size: 0.6rem; font-weight: 800; color: var(--secondary); }
-        .mini-stat strong { font-size: 1rem; font-weight: 800; color: var(--primary); }
 
         .active-tests {
           max-width: 1280px;
