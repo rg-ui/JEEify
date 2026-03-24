@@ -1,0 +1,22 @@
+{
+  "title": "JEE Main 2024 Mock Test - 1",
+  "provider": "Mathongo",
+  "price": "₹10",
+  "status": "LIVE NOW",
+  "questions": [
+    {
+      "id": 1,
+      "text": "The coordination number of Al in [Al(H2O)6]3+ is:",
+      "options": ["4", "6", "8", "12"],
+      "correctAnswer": 1,
+      "subject": "Chemistry"
+    },
+    {
+      "id": 2,
+      "text": "Derivative of sin(x) with respect to x is:",
+      "options": ["cos(x)", "-cos(x)", "tan(x)", "sec(x)"],
+      "correctAnswer": 0,
+      "subject": "Mathematics"
+    }
+  ]
+}
