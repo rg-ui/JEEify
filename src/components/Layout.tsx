@@ -5,6 +5,7 @@ import { LayoutProps } from '@/types';
 import { useAuth } from '@/hooks/useAuth';
 import { LogOut } from 'lucide-react';
 import Logo from './Logo';
+import AdBanner from './AdBanner';
 
 console.log("Checking Layout imports:", { Head, Link, LogOut });
 
@@ -73,6 +74,7 @@ const Layout: React.FC<LayoutProps> = ({ children, title = 'JEEify' }) => {
         )}
       </nav>
 
+      <AdBanner />
       <main>{children}</main>
 
       <footer className="footer">
