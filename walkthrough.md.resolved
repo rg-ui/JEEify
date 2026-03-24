@@ -1,0 +1,39 @@
+# Walkthrough: JEEify "Same to Same" Website Implementation
+
+I have successfully built the JEEify platform according to the "Slate & Ember" design system. The implementation uses **Next.js**, **Vanilla CSS**, and **TypeScript** to achieve a premium, high-fidelity experience.
+
+## Key Accomplishments
+
+### 1. Slate & Ember Design System
+- **Palette**: Deep Navy (#0F172A), Slate Secondary (#505F76), and Bright Orange CTA (#F97316).
+- **Typography**: Dual-font system with `Plus Jakarta Sans` for headlines and `Inter` for technical data.
+- **Atmospheric Depth**: Implemented tonally layered backgrounds and frosted glass navigation for a modern "Academic Architect" aesthetic.
+
+### 2. High-Fidelity Screens
+- **Landing Page**: Implemented the hero section with the "Architectural Precision" tagline and active mock test cards with status badges.
+- **Aspirant Analytics**: Built a data-dense dashboard with score trends, accuracy circular progress, and a topic-wise effort heatmap.
+- **Video Library**: Created a streaming-style library with featured masterclasses and categorized subject sections.
+- **NTA-Style Test Engine**: Replicated the official JEE mock test interface, including the question palette, timer, and NTA-specific navigation buttons.
+
+## Visual Overview
+
+![JEEify Platform Overview](/Users/raviranjankumargupta/.gemini/antigravity/brain/6fb532d2-c2ba-4bfb-914d-cee924ef1cd0/jeeify_platform_overview_1774267370078.png)
+
+## Technical Summary
+- **Framework**: Next.js (Page Router)
+- **Styling**: Vanilla CSS with CSS Modules and `styled-jsx` for component-level precision.
+- **Icons**: Lucide-React for technical and crisp iconography.
+- **Components**: Reusable UI primitives (Buttons, Cards, Badges) built from the design system tokens.
+
+## How to Run
+```bash
+# Navigate to the project directory
+cd /Users/raviranjankumargupta/JEEify
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
